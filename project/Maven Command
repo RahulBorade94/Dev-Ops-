@@ -1,0 +1,52 @@
+   1 wget https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
+   2  ll
+   3  tar -zxvf apache-maven-3.8.6-bin.tar.gz 
+   4  ll
+   5  du -sh apache-maven-3.8.6-bin.tar.gz 
+   6  du -sh apache-maven-3.8.6
+   7  cd apache-maven-3.8.6/
+   8  ll
+   9  mvn archetype:generate
+   10  sudo amazon-linux-extras install epel -y
+   11  sudo amazon-linux-extras install java-openjdk11 -y
+   12  yum install maven -y
+   13  java -version
+   14  mvn --version
+   15  mvn archetype:generate
+   16  ll
+   17  cd devops/
+   18  ll
+   19  yum install tree -y
+   20  ll
+   21  tree
+   22  cat src/main/java/evebatch/App.java 
+   23  cat src/test/java/evebatch/AppTest.java 
+   24  mvn compile
+   25  ll
+   26  tree
+   27  mvn test
+   28  tree
+   29  mvn package
+   30  pwd
+   31  ls target/
+   32  mvn install
+   33  cd /root/.m2/repository/raham/devops/
+   34  ls
+   35  cd 1.0-SNAPSHOT/
+   36  ls
+   37  cd /root/apache-maven-3.8.6/devops/
+   38  ll
+   39  mvn clean
+   40  ll
+   41  mvn compile
+   42  ll
+   43  tree
+   44  mvn test
+   45  tree
+   46  mvn package
+   47  tree
+   48  mvn install
+   49  ll
+   50  mvn clean
+   51  ll
+   52  vim pom.xml
