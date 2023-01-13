@@ -1,0 +1,46 @@
+    1  yum install docker -y
+    2  docker --version
+    3  docker version
+    4  systemctl start docker
+    5  systemctl statu docker
+    6  systemctl status docker
+    7  docker version
+    8  docker images
+    9  docker search ubuntu
+   10  docker images
+   11  docker ps -a
+   12  docker run ubuntu
+   13  docker images
+   14  docker ps -a
+   15  docker run --name raham ubuntu
+   16  docker ps -a
+   17  docker run -d --name raham1 ubuntu
+   18  docker ps -a
+   19  docker run -itd --name raham2 ubuntu
+   20  docker ps -a
+   21  history
+   22  docker run -it --name raham3 ubuntu
+   23  docker ps -a
+   24  docker start raham3
+   25  docker ps -a
+   26  docker attach raham3
+   27  docker ps -a
+   28  docker rm raham2
+   29  docker rm raham1
+   30  docker ps -a
+   31  docker stop raham2
+   32  docker ps -a
+   33  docker rm raham2
+   34  docker ps -a
+   35  docker images
+   36  docker run -it --name nit ubuntu
+   37  docker start nit
+   38  docker attach nit
+   39  docker ps -a
+   40  docker images
+   41  docker build -t img1 .
+   42  docker build -t nit img1 .
+   43  docker commit nit raham
+   44  docker images
+   45  docker run -it --name nit2 raham
+   46  history
