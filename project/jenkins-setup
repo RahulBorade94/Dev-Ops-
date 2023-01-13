@@ -7,5 +7,6 @@ JENKINS Setup :
     6  yum install git jenkins maven -y 
     7  systemctl start jenkins.service 
     8  systemctl status jenkins.service 
-    9   cat /var/lib/jenkins/secrets/initialAdminPasswo
+    9   cat /var/lib/jenkins/secrets/initialAdminPasswod
+    10 cd /var/lib/jenkins/workspace/   - Jenkins Workspace files
 
