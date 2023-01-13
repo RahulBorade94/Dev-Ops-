@@ -1,0 +1,91 @@
+    1  yum install git -y
+    2  git status
+    3  git --version
+    4  git init .
+    5  mkdir project1
+    7  git init project1/
+    9  get status
+   10  git status
+   11  cd project1/
+   12  git status
+   13  ls -al
+   14  touch file1
+   15  cat > file1
+   16  git status
+   17  git add file1
+   18  git status
+   19  cat file1
+   21  git commit -m "first commit" file1
+   22  cat file1
+   23  git status
+   24  cat >>file1
+   25* git
+   26  git add file1
+   27  git commit -m "second commit" file1
+   28  cat file1
+   29  git status
+   30  git log
+   31  touch file2
+   32  git status
+   33  git add file2
+   34  git status
+   35  git restore --staged file2
+   36  git status
+   37  git add file2
+   38  git status
+   39  git rm --cached file2
+   40  git status
+   41  ls
+   42  git log
+   43  git status
+   44  git add file2
+   45  git status
+   46  git commit -m "third commit" file2
+   47  git status
+   48  git log
+   49  git log --oneline
+   50  git log
+   51  git log-2
+   52  git log -2
+   53  git log --follow --all file2
+   54  git log --follow --all file1
+   55  git config user.name "Rahul Borade"
+   56  git config user.email "rspb9393@gmail.com"
+   57  touch file3
+   58  cat file3
+   59  cat > file3
+   60  cat file3
+   61  git status
+   62  git add file3
+   63  git status
+   64  git commit -m "fourth commit" file3
+   65  git log
+   66  cat file1
+   67  cat > file1
+   68  git status
+   69  git log
+   70  git status
+   71  git add file1
+   72  git status
+   73  git commit -m "fifth commit" file1
+   74  git log
+   75  cat file
+   76  cat file1
+   77  history
+
+
+
+
+echo "# projecta" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/RahulBorade94/projecta.git
+git push -u origin main
+
+
+git remote add origin https://github.com/RahulBorade94/projecta.git
+git branch -M main
+git push -u origin main
+
