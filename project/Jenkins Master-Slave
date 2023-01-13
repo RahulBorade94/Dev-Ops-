@@ -1,0 +1,134 @@
+
+Master Node Setup:
+    1 yum update -y
+    2  sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    3   sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+    4  sudo amazon-linux-extras install epel -y
+    5  sudo amazon-linux-extras install java-openjdk11 -y
+    6  java -version
+    7  yum install jenkins -y
+    8  systemctl start jenkins
+    9  systemctl status jenkins
+   10  jenkins -version
+   11  jenkins --version
+   12  cat /var/lib/jenkins/secret/initailAdminPassword
+   13  cat /var/lib/jenkins/secrets/initialAdminPassword
+   14  useradd jenkins
+   15  passwd jenkins
+   16  visudo
+   17  vim /etc/ssh/sshd_config
+   18  systemctl restart sshd
+   19  systemctl status sshd
+   20  ssh-keygen
+   21  ls -al
+   22  cd .ssh/
+   23  ls
+   24  cd
+   25  ssh-copy-id jenkins@localhost
+   26  ssh jenkins@localhost
+   27  exit
+   28  history
+   29  ssh-copy-id jenkins@172.31.85.33
+   30  ssh 'jenkins@172.31.85.33'
+   31  ssh-copy-id jenkins@172.31.85.38
+   32  ssh 'jenkins@172.31.85.38'
+   33  sudo amazon-linux-extras install java-openjdk11 -y
+   34  java -version
+   35  cd /var/lib/jenkins/workspace/Job-1
+   36  ll
+   37  history
+   38  cd /tmp/
+   39  ll
+   40  history
+   41  cd /var/lib/jenkins
+   49  ll
+   50  ls logs/
+   51  ls logs/slaves/
+   52  ls logs/slaves/prod/
+   53  ls logs/slaves/Prod/
+   54  tail -100f /logs/slaves/prod/slave.log
+   55  tail -100f logs/slaves/Prod/slave.log
+   56  ll
+   57  cd users
+   58  ll
+   59  vim users.xml
+   60  history
+
+
+Test Sever(Slave Node): 
+
+    1  yum update -y
+    2  useradd jenkins
+    3  passwd jenkins
+    4  visudo
+    5  vim /etc/ssh/sshd_config
+    6  systemctl restart sshd
+    7  systemctl status sshd
+    8  hostname -i
+    9  history
+   10  sudo amazon-linux-extras install java-openjdk11 -y
+   11  java -version
+   12  cd /tmp/
+   13  ls
+   14  hostname -i
+   15  cd /tmp/workspace/Job-1
+   16  ll
+   17  cd
+   18  ll
+   19  cd /tmp/
+   20  ll
+   21  ls /workspace
+   22  ls /workspace/
+   23  cd workspace/
+   24  ll
+   25  history
+
+
+Prod Server: 
+    1  yum update -y
+    2  useradd jenkins
+    3  passwd jenkins
+    4  visudo
+    5  vim /etc/ssh/sshd_config
+    6  systemctl restart sshd
+    7  systemctl status sshd
+    8  hostname -i
+    9  history
+   10  sudo amazon-linux-extras install java-openjdk11 -y
+   11  java -version
+   12  hostname -i
+   13  cd /tmp/
+   14  ll
+   15  cd workspace/
+   16  ll
+   17  cd
+   18  cd pipeline-1/
+   19  cd Pipeline-1/
+   20  cd Pipeline-1
+   21  cd /tmp/workspace/Job-1
+   22  ll
+   23  cd ..
+   24  cd Pipeline-1
+   25  LL
+   26  ll
+   27  cat file2
+   28  history
+
+ 
+
+
+Syntax pipline(Master & Slave):
+
+pipeline {
+    agent {
+        label 'prod'
+    }
+
+    stages {
+        stage('Hello') {
+            steps {
+                sh 'touch file2'
+            }
+        }
+    }
+}
