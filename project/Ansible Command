@@ -1,0 +1,500 @@
+Ansible Setup:
+ Ansible (ansible server)User :
+ 1  sudo -i
+ 2  su - ansible
+ 3  sudo amazon-linux-extras install ansible2-y
+ 4  yum install git python python-pip python-level-openssl -y
+ 5  vi /etc/ansible/hosts
+ 6  vi /etc/ansible/ansible.cfg
+ 7  cat /etc/passwd
+ 8  useradd ansible
+ 9  passwd ansible
+ 10 visudo
+ 11 vim /etc/ssh/sshd_config
+ 12 systemctl restart sshd
+ 13 systemctl status sshd
+ 14 ls .ssh/
+ 15 visudo
+ 16 ssh-copy-id ansible@localhost
+
+# ansible@ ip : ssh-keygen
+
+    1 ssh-copy-id ansible@172.31.85.145
+    2  ssh-keygen
+    3  ssh-copy-id ansible@localhost
+    4  ssh-copy-id ansible@172.31.85.145
+    6  ssh-copy-id ansible@172.31.83.55
+    7  ssh 'ansible@172.31.83.55'
+    8  ansible test -a "ls"
+    9  ssh-copy-id ansible@172.31.88.251
+   10  ssh 'ansible@172.31.88.251'
+   11  ssh-copy-id ansible@172.31.89.252
+   12  ssh 'ansible@172.31.89.252'
+
+Ad-Hoc Command: 
+
+   13  ansible all -a "ls"
+   14  ansible all -a "touch file1"
+   15  ansible all -a "ls"
+   16  ansible all -a "yum install tree -y"
+   17  ansible all -a "sudo yum install tree -y"
+   18  ansible all -a " tree --version"
+   19  ansible all -b -a " yum install httpd -y"
+   20  ansible all -ba " yum remove httpd -y"
+   21  ansible prod -a "ls"
+   22 ansible prod[0] -b -a "yum install tree -y"
+   23 ansible prod[0] -b -a "yum remove tree -y"
+
+Module Command:
+
+   24  ansible prod -b -m yum -a "pkg=httpd state=present"
+   25  ansible prod -b -m yum -a "pkg=httpd state=latest"
+   26  ansible prod -b -m yum -a "pkg=httpd state=absent"
+   27  ansible prod -b -m yum -a "pkg=httpd state=present"
+   28  ansible prod -b -m service -a "name=httpd state=restarted"
+   29  cat>rahul.txt
+   30  ll
+   31  ansible all -b -m copy -a "src=rahul.txt dest=/tmp"
+   32  ansible all -b -m user -a "name=borade state=present"
+
+Playbook:
+1) vim abc.yml
+
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: installing tree package
+      action: yum name=tree state=present
+
+Variable:
+---
+- hosts: all
+  become: yes
+  vars:
+    pkgname: tree
+    xyz: httpd
+  tasks:
+    - name: installing tree package
+      action: yum name='{{pkgname}}' state=absent
+    - name: installing httpd package
+      action: yum name='{{xyz}}' state=present
+
+
+ 2 ansible-playbook abc.yml
+ 3 ansible-playbook abc.yml --extra-vars "ab=lshw"
+ 4 vim abc.yml
+ 5 ansible-playbook abc.yml --extra-vars "ab=httpd"
+
+Handler: 
+
+1 vim abc.yml
+
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: installing tree package
+      action: yum name=httpd state=prsent
+      notify: restart httpd
+handler:
+- name: restarted httpd
+  action: service name=httpd state=restarted  
+
+All Node(test & prod):
+
+ 1 useradd ansible
+ 2 passwd ansible
+ 3 visudo
+ 4 vim /etc/ssh/sshd_config
+ 5 systemctl restart sshd
+ 6 systemctl status sshd
+ 7 su - ansible
+
+
+
+Vault
+Ansible server(Host):
+
+1 cat >file1
+2 ansible-vault create file2
+New Vault Password:
+confirm Passwd:
+
+add conetent...this is my file2
+
+3 cat file1
+4 cat file2
+
+
+5 ansible-vault edit file2
+Vault Passsword:
+add conetent...this is my file2
+This is edited by raham
+
+6 cat file2
+7 ansible-vault rekey file2
+old passwd:
+New vault passwd:
+8 ansible-vault decrypt file2
+9 cat file2
+10 ansible-vault encrypt file2
+11 cat file2
+
+12 rm rf *
+
+Normal Playbook:
+1 vim task.yml
+---
+ - hosts:all
+   become :yes
+   task:
+     - name: installing tree
+       action: yum pkg=tree state=present
+2 ansible-valut encrypt task.yml
+new passwd:
+
+3 cat task.yml
+
+Roles:
+1 mkdir -p playbooks/roles
+2 mkdir -p playbooks/roles/webserver
+3 mkdir -p playbooks/roles/git
+4 sudo yum install tree -y
+5 rm -rf task.yml
+6 mkdir playbooks/roles/git/task
+7 mkdir  playbooks/roles/webserver
+8 cd playbook
+9 vim master.yml
+
+---
+ - hosts:test
+   become :yes
+   tasks:
+      - git
+10 vim roles/git/tasks/main.yml
+
+- name:installing git
+  action: yum pkg=git state=present
+
+11 cat master.yml
+12 cat /roles/git/tasks/main.yml
+13 ansible-playbook master.yml
+vim master.yml
+---
+ - hosts:test
+   become :yes
+   roles:
+      - git
+14 ansible-playbook master.yml
+15 vim roles/webserver/tasks/main.yml
+
+- name:installing webserver
+  action: yum pkg=httpd state=present
+16 vim master.yml
+---
+ - hosts:test
+   become :yes
+   roles:
+      - webserver
+
+17 ansible-playbook master.yml
+18 ansible all -ba "yum remove httpd -y"
+19 ansible-playbook master.yml
+20 vim master.yml
+---
+ - hosts:test
+   become :yes
+   vars
+   roles:
+      - webserver
+21 cat master.yml
+22 vim roles/webserver/tasks/main.yml
+23 ansible all -ba "yum remove httpd -y"
+24 ansible-playbook master.yml --extra-vars "a=httpd"
+
+Tags:
+
+25 rm -rf roles/
+26 vim master.yml
+
+---
+ - hosts:test
+   become :yes
+   tasks:
+     - name: installing git
+       action: yum pkg=git state=present
+       tag:t1
+     - name: installing tree
+       action: yum pkg=tree state=present
+       tag:t2
+     - name: installing httpd
+       action: yum pkg=httpd state=present
+       tag:t3
+27 ansible all -ba "yum remove git tree httpd -y"
+28 cat master.yml
+29 ansible-playbook master.yml --tags t1,t2
+29 ansible all -ba "yum remove git tree httpd -y"
+30 cat master.yml
+31 ansible-playbook master.yml --skip-tags t2 
+32 ansible all -ba "yum remove git tree httpd -y"
+
+Galaxy:
+
+33 ll
+34 ansible-galaxy init raham
+34 tree
+35 cat raham/defults/main.yml
+36 ansible-galaxy search java
+37 ansible-galaxy install aberwag.java
+38 ll
+39 cd /home/ansible/.ansible/roles/aberwag.java
+40 ll
+41 ls tasks/
+42 cat tasks/main.yml
+43 cd
+44 ansible-galaxy search elasticsearch
+45 ansible-galaxy search --author ashokc
+
+ansible galaxy websearch
+
+
+
+
+Pip:
+
+
+1 cd playbooks
+2 vim master.yml
+
+---   
+   hosts:test
+   become :yes
+   tasks:
+     - name: installing python module numpy
+       pip:
+	name:numpy
+      
+3 ansible-playbook master.yml 
+another all host: sudo yum install pip -y
+
+Shell:
+
+1 vim master.yml
+
+---   
+   hosts:test
+   become :yes
+   tasks:
+     - name: file creation
+       shell: name=abc.txt state=present
+2 ansible-playbook master.yml
+3 vim master.yml
+4 ll
+
+---   
+   hosts:test
+   become :yes
+   tasks:
+     - name: file creation
+       shell: mkdir dir2
+
+
+5 ansible-playbook master.yml
+
+
+
+Synonize:
+	
+1) vim task.yml
+---   
+   hosts:test
+   become :yes
+   tasks:
+     - name: 'sleep for 20 sec'
+       command: sleep 20 
+       name:'creating a file'
+       command: touch filexyz
+
+2) ansible-playbook task.yml
+
+3) vim task.yml
+---   
+   hosts:test
+   become :yes
+   tasks:
+     - name: 'sleep for 20 sec'
+       command: sleep 20 
+       async: 30
+        poll:10
+       name:'creating a file'
+       command: touch filexyz
+
+4) ansible-playbook task.yml
+
+
+
+Ansiable Strategies:
+
+
+5) vim task.yml
+---   
+   hosts:test
+   become :yes
+   tasks:
+   strategy: linear
+     - name: install httpd
+       yum name='httpd' state='present'
+       name:'creating a file'
+       command: touch filedef
+
+ 6) ansible-playbook task.yml 
+ 7) ansiable all -ba "yum remove hhtpd -y"
+ 8) ansiable all -ba "rm -rf filedef"
+ 9) vim task.yml
+---
+   hosts:test
+   become :yes
+   tasks:
+   strategy: free
+     - name: install httpd
+       yum name='httpd' state='present'
+       name:'creating a file'
+       command: touch filedef
+ 10) ansible-playbook task.yml 
+ 11) vim task.yml
+
+---
+   hosts:test
+   become :yes
+   tasks:
+   strategy: free
+     - name: install httpd
+       yum name='httpd' state='present'
+       name:'creating a file'
+       command: touch filedef
+
+Lookup:
+
+1  vim task.yml
+
+---
+   hosts:test
+   become :yes
+   vars:
+     motd_value: "{{ lookup('file','/etc/motd') }}" 
+   tasks:
+  
+     - debug:
+	msg:"the value is {{motd_value}}"
+
+      
+
+ 2 ansible-playbook task.yml 
+
+Raw Module:
+
+ 1 vim task.yml
+
+---
+   hosts:test
+   become :yes 
+   tasks:
+  
+     - name: installing tree pkg by RAM modules
+       raw :yum remove tree -y 
+ 
+      
+
+ 2  ansible-playbook task.yml 
+
+Condition:
+
+ 1 vim task.yml
+
+---
+   hosts:test
+   become :yes 
+   tasks:
+  
+     - name: installing httpd on RedHat
+       command:yum install httpd -y
+       when:ansiable_os_family = "RedHat"
+     - name: installing tree pkg by RAM modules
+       command: apt install httpd -y
+       when:ansiable_os_family = "Debian"
+
+
+  2  ansible-playbook task.yml
+
+
+
+Integrate ansible with jenkins:
+
+
+ 1 vim task.yml
+
+---
+   hosts:test
+   become :yes 
+   tasks:
+  
+     - name: gettting repo from jenkins.io
+       get_url:
+           url:  https://pkg.jenkins.io/redhat-stable/jenkins.repo
+	   dest: /etc/yum.repos.d/jenkins.io
+     - name : getting key
+       ansible.builtin.rpm_key:
+       state:present
+       key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+       -name: installing epel
+       command: sudo yum amazon-extras epel-y
+      -name: installing java
+       command: sudo yum install java-1.8.0-openjedk -y
+      -name: install jenkins
+       command:sudo yum install jenkins -y
+      -name:start jenkins
+       command: systemctl start jenkins
+      -name:status jenkins
+       command: systemctl status jenkins
+
+
+ 2 ansible-playbook task.yml
+
+ 3 another host(instance)
+   cat /etc/passwd
+   sudo systemctl status jenkins
+ 
+Playbook to Deploy A Webapp
+ 
+ 1 vim task.yml
+---
+   hosts:test
+   become :yes 
+   tasks:
+  
+     - name: install httpd
+       command: yum install httpd -y
+
+    - name: restart httpd
+      command: systemctl start httpd
+
+    - name: cretae source code
+      file:
+      path: "var/www/html/index.html"
+      state: touch 
+
+    - name: eneter the content
+      copy:
+         dest: "var/www/html/index.html"
+         content:
+          <h1>this is my website deployed by using ansible plybook</h1>
+
+2 ansible-playbook task.yml
+
+
+
+ 
+
+
+
