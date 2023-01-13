@@ -1,0 +1,160 @@
+Scripted Pipleline:
+
+Single Stage:
+
+node{
+    stage('stage1')
+    {
+        sh 'touch file2'
+    }
+}
+
+Declarative Pipeline:
+
+Multi stage:
+
+pipeline {
+    agent(any)
+    stages
+    {
+        stage('stage1')
+        {
+            steps
+            {
+                sh 'touch file3'
+            }
+        }
+         stage('stage2')
+        {
+            steps
+            {
+                sh 'mkdir dir1'
+            }
+        }
+    }
+    
+}
+
+
+pipeline {
+    agent(any)
+    stages
+    {
+        stage('Hello')
+        {
+            steps
+            {
+                echo 'Hello word'
+            }
+        }
+         stage('Test')
+        {
+            steps
+            {
+                 echo 'Hello word Test'
+            }
+        }
+        stage('Depoy')
+        {
+            steps
+            {
+                echo 'Hello word Deploye'
+            }
+        }
+    }
+    
+}
+
+Pipline as code:
+
+pipeline{
+    agent(any)
+    stages
+    {
+        stage('stage1')
+        {
+            steps
+            {
+                sh 'touch file1'
+                sh 'touch file3'
+                git 'https://github.com/RahulBorade94/Dev-Ops-.git'
+            }
+        }
+        
+    }
+}
+
+pipeline{
+    agent(any)
+    stages
+    {
+        stage('stage1')
+        {
+            steps
+            {
+                sh 'mkdir dir2'
+                sh 'touch abcd.txt'
+                
+            }
+        }
+        stage(integration)
+        {
+            steps
+            {
+                git 'https://github.com/RahulBorade94/Dev-Ops-.git'
+            }
+        }
+        
+    }
+}
+
+pipeline{
+    agent(any)
+    stages
+    {
+        stage('stage1')
+        {
+            steps
+            {
+              sh '''
+               uptime
+               date
+               hostname
+               touch raham
+               pwd
+               
+               '''
+                
+            }
+        }
+        
+        
+    }
+}
+
+
+Enviorment Variable:
+
+Local Variable (Pipeline):
+
+pipeline{
+    agent any
+environment {
+    name='raham'
+    company='nareshit'
+}
+    stages
+    {
+        stage('stage1')
+        {
+            steps
+            {
+              
+                sh 'echo "The trainer is name is ${name} he is working on ${company}"'
+            }
+        }
+        
+        
+    }
+}
+
