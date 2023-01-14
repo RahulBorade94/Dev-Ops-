@@ -126,7 +126,34 @@ handler:
   action: service name=httpd state=restarted  
 
 
+Loops:
 
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: installing git maven tree
+      action: yum name='{{item}}' state=present
+      with_items:
+        - git
+        - maven
+        - tree
+        - httpd
+        - java-1.8.0-openjdk
+
+
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: installing git maven tree
+      user: name='{{item}}' state=present
+      with_items:
+        - gituser
+        - mavenuser
+        - treeuser
+        - httpduser
+        - javauser
 
 
 Vault
