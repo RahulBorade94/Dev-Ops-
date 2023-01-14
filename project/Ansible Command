@@ -31,15 +31,25 @@ Ansible Setup:
    11  ssh-copy-id ansible@172.31.89.252
    12  ssh 'ansible@172.31.89.252'
    
+   All Node(test & prod):
+
+ 1 useradd ansible
+ 2 passwd ansible
+ 3 visudo
+ 4 vim /etc/ssh/sshd_config
+ 5 systemctl restart sshd
+ 6 systemctl status sshd
+ 7 su - ansible
+   
    
 Host Pattern command: 
 
-1   ansible all --list-hosts       - to list of the all server 
-2   ansible test --list-hosts      - to list of the test group server
-3   ansible prod --list-hosts      - to list of the prod group server
-4 ansible all[3] --list-hosts      -list of server to find using indexing the indexing start from [0]
-5  ansible all[1:3] --list-hosts   - to list of the specific 
-6  ansible all[-1] --list-hosts    - to reverse order
+1   ansible all --list-hosts         - to list of the all server 
+2   ansible test --list-hosts        - to list of the test group server
+3   ansible prod --list-hosts        - to list of the prod group server
+4   ansible all[3] --list-hosts      -list of server to find using indexing the indexing start from [0]
+5   ansible all[1:3] --list-hosts    - to list of the specific 
+6   ansible all[-1] --list-hosts     - to reverse order
 
 
 Ad-Hoc Command: 
@@ -115,15 +125,7 @@ handler:
 - name: restarted httpd
   action: service name=httpd state=restarted  
 
-All Node(test & prod):
 
- 1 useradd ansible
- 2 passwd ansible
- 3 visudo
- 4 vim /etc/ssh/sshd_config
- 5 systemctl restart sshd
- 6 systemctl status sshd
- 7 su - ansible
 
 
 
