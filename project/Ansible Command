@@ -61,7 +61,7 @@ Ad-Hoc Command:
 
 Module Command:
 
-   24  ansible prod -b -m yum -a "pkg=httpd state=present"
+   24  ansible prod -b -m yum -a "pkg=httpd state=present"     -b = become a root, -a=argument , -m=module
    25  ansible prod -b -m yum -a "pkg=httpd state=latest"
    26  ansible prod -b -m yum -a "pkg=httpd state=absent"
    27  ansible prod -b -m yum -a "pkg=httpd state=present"
