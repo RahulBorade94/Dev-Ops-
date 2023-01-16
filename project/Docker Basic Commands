@@ -1,0 +1,92 @@
+Command with Discriptions:
+ 
+    1  yum install docker -y                    - To install docker in linux
+    2  docker --version                         - To see the docker version 
+    3 service docker start                      - to start the docker service
+    4 service docker status                     - To check service is start or not
+    5 docker info                               - To check the docker infromation
+    6 docker image                              - To see all image in local machine
+    7 docker search image name                  - To find image in docker hub
+    8 docker pull image name                    - To download image from docker hub to local
+    9 docker run -it image name/bin/bash        - To download and run image at time
+    10 docker run-it-- raham img-name/bin/bash  - To give a name of a container 
+    11 docker start container name              - To start the container 
+    12 docker attach container name             - To go on inside the container
+    13 cat /etc/os-release                      - To see the all the deatils inside the container
+    14 exit                                     - To get ouside of the container 
+    15 docker ps -a                             - To see all the containers
+    16 docker ps(ps:process status)             - To see only the running continers
+    17 docker stop caontainer name              - To stop the container 
+    18 docker rm caontainer name                - To delete the container
+    19 docker stop $(docker ps-a -q)            - To stop all the container 
+    20 docker rm $(docker ps-a -q)              - To delete all the stopped conatiners
+    21 docker rmi -f $(docker image-q)          - To delete all images
+
+
+
+
+Command :
+
+  1  yum install docker -y 
+  2  docker --version
+  3  docker version
+  4  systemctl start docker
+  5  systemctl status docker
+  6  docker version 
+  7  docker images                          - To get the images
+  8  docker search ubuntu
+  9  docker images
+  10 docker ps - a
+  11 docker run ubuntu                      - To create conatiner 
+  12 docker image
+  13 docker ps - a
+  14 docker run --name raham ubuntu         - If you want to give your name to the conatiner 
+  15 docker ps - a
+  16 docker run -d  --name raham1 ubuntu
+  17 docker ps - a
+  18 docker run -itd  --name raham2 ubuntu - If you want to make conatiner is up and running
+  19 docker ps - a
+  20 docker run -it --name raham3 ubuntu   - It -means interactive terminal -d menas deattched mode
+  21 cat /etc/os-release                   - Command to check flaovour of operating system
+  22 exit control D                        - Is to exited to inside the conatiner 
+  23 docker ps - a
+  24 docker start raham3                   - To start the container 
+  25 docker ps - a
+  26 docker attach raham3                  - Attaches directly taking me to inside the conatiner
+  27 exit - contol D
+  28 docker ps - a                         - To delete the container 
+  29 docker rm raham3                      - We can't delete a running containers
+  30 docker rm raham1                      - To delete the stopped container
+  31 docker ps - a
+  32 docker stop raham2                    - To stop the conatner
+  33 docker ps - a
+  34 docker rm raham2  
+  35 docker run -it --name nit ubuntu
+  36 sudo apt-get update -y
+  37 apt update -y
+  38 apt install tree -y
+  39 apt install apache2 -y
+  40 docker start nit
+  41 docker attach nit
+  42 docker ps - a
+  43 docker images
+  44 docker build -t img1 .     - -t: means tag
+  45 docker commit nit raham
+  46 docker images
+  47 docker run -it --name nit2 raham
+  48 apt update -y
+  49 mvn --version
+  50 java -version
+  51 cd /var/www/html
+  52 cat /etc/passwd
+  53 exit
+
+
+
+
+
+
+ 
+
+
+
