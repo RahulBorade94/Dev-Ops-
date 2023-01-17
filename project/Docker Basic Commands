@@ -82,7 +82,91 @@ Command :
   53 exit
 
 
+Docker File and Docker File Components:
 
+1 yum install docker -y
+2 docker version                        - By defualt if you install you only get docker package 
+3 systemctl start docker                - If you want to get the docker engine we need to start the docker
+4 systemctl start docker  
+5 docker version
+6 docker images
+7 docker pull ubuntu                    - It will give the image it won't give the conatiner 
+8 docker ps -a
+9 docker run -itd --name raham1 ubuntu  - It will create conatiner and container is starting stage
+10 docker ps                            - list of running conatiner 
+11 docker ps -a                         - All the conatiners
+12 ll
+13 vim Dockerfile
+
+FROM ubuntu 
+RUN apt update -y
+RUN apt install git -y
+RUN  touch file1
+
+14 ll
+15 docker build -t r1 .
+16 cat Dockerfile
+17 docker images
+18 docker run -it --name r1 r1 /bin/bash
+19 git --version
+20 ls
+21 exit (Control D)
+22 vim Dockerfile
+
+FROM ubuntu 
+RUN apt update -y
+RUN apt install git -y
+RUN  touch file1
+RUN mkdir abcd
+WORKDIR /abcd
+ENV name RAHAM
+
+23 docker build -t r1 .
+24 docker run -it --name r2 r1
+25 echo $name 
+26 exit
+27 cat >xyz
+Hii All good evening
+28 vim Dockerfile
+
+FROM ubuntu 
+RUN apt update -y
+RUN apt install git -y
+RUN  touch file1
+RUN mkdir abcd
+WORKDIR /abcd
+ENV name RAHAM
+COPY xyz /abcd
+ADD https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz /tmp
+
+29 docker build -t r1 .
+30 docker run -it --name r3 r1
+31 ls
+32 cd /tmp/
+33 ls
+34 exit
+35 vim Dockerfile
+
+FROM ubuntu 
+RUN apt update -y
+RUN apt install git -y
+RUN  touch file1
+RUN mkdir abcd
+WORKDIR /abcd
+ENV name RAHAM
+COPY xyz /abcd
+ADD https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz /tmp
+LABEL name rahulborade
+EXPOSE 8080
+
+36 docker build -t r1 .
+37 docker inspect r1
+38 ll
+39 docker run -it --name  r4 r1
+40 exit
+41 docker inspect r4
+42 docker inspect r4 | grep 8080
+43 docker inspect r4 | grep -i name
 
 
 
