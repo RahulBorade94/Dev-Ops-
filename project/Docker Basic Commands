@@ -1,4 +1,4 @@
-Command with Discriptions:
+#Command with Discriptions:
  
     1  yum install docker -y                    - To install docker in linux
     2  docker --version                         - To see the docker version 
@@ -25,7 +25,7 @@ Command with Discriptions:
 
 
 
-Command :
+#Command :
 
   1  yum install docker -y 
   2  docker --version
@@ -82,7 +82,7 @@ Command :
   53 exit
 
 
-Docker File and Docker File Components:
+#Docker File and Docker File Components:
 
 1 yum install docker -y
 2 docker version                        - By defualt if you install you only get docker package 
@@ -168,6 +168,146 @@ EXPOSE 8080
 42 docker inspect r4 | grep 8080
 43 docker inspect r4 | grep -i name
 
+
+# Docker Volumes:
+
+ 1 docker version
+ 2 service docker start 
+ 3 service docker status
+ 4 docker version
+ 5 vim Dockerfile
+
+FROM ubuntu
+VOLUME ["/Raham"]
+
+ 6 docker images   
+ 7 docker ps -a
+ 8 docker build -t nit:v1 .  - if you want to build a container ,first of all what we need to do we need to build image
+                               i have docker file from the docker file i need to buld a image
+
+ 9  docker ps -a
+ 10 docker images
+ 11 docker run -it --name c1 nit /bin/bash   -buid the conatiner from this image
+ 12 docker build -t r1
+ 13 docker images
+ 14 docker run -it --name c1 r1 /bin/bash
+ 15 ls
+ 16 cd raham
+ 17 touch raham{1..5}
+ 18 cat >raham1
+    This is my file one  on conatianer c1
+ 19 cat raham1
+ 20 ls
+ 21 Control D
+ 22 docker ps -a
+ 23 docker run -it --name r2 --privileged=true --volumes-from c1 ubuntu       -create a conatiner 
+ 24 docker run -it --name c2 --privileged=true --volumes-from c1 ubuntu
+ 25 cd raham/
+ 26 ls
+ 27 cat raham1
+ 28 touch  file{1..5}
+ 29 cat >file1
+   This is my file1 on conatiner c2
+ 30 ll
+ 31 Control D
+ 32 docker start c1
+ 33 docker attach c1
+ 34 cd raham/
+ 35 ls
+ 36 exit
+ 37 docker ps -a
+ 38 docker run -it --name c3 --previleged=true --volumes-from c1 ubuntu
+ 39 ls
+ 40 cd raham
+ 41 exit
+ 42 docker run -it --name c4 -v /abc ubuntu  - create volume 
+ 43 exit
+ 44 vim Dockerfile
+
+FROM ubuntu
+VOLUME ["/DEVOPS"]
+WORKDIR /DEVOPS
+RUN Touch f1 f2 f3
+
+ 45 docker build -t r1 .
+ 46 docker run -it --name c5 r1 
+ 47 ls
+ 48 cd ..
+ 49 ls
+ 50 exit
+ 51 touch f1
+ 52 cat >f1
+   Hello word 
+ 53 vim Dockerfile
+
+FROM ubuntu
+VOLUME ["/DEVOPS"]
+WORKDIR /DEVOPS
+COPY F1 .
+
+ 54 docker build -t r1 .
+ 55 docker run -it --name c6 r1 
+ 56 ls
+ 57 cat f1
+ 58 exit
+
+# Host to conatiner
+
+ls
+cd /home/ec2-user/
+touch r1 r2 r3 r4 r5
+cat>r1
+This is my host file
+cat r1
+cd
+docker run -it --name c7 -v /home/ec2-user:/abcd --previleged=true ubuntu
+ls
+cd abcd/
+ls
+cat r1
+cat >r6
+This is created on conatiner
+exit
+cd /home/ec2-user/
+ls
+cd
+
+#some other commands
+
+docker volume ls
+docker volume inspect ---id
+docker valume create raham 
+docker volume ls
+docker volume prune
+docker valume create raham 
+docker volume ls
+docker volume prune
+docker volume rm raham
+docker volume ls
+
+# Mount Volumes
+
+
+ 1 docker valume create vol1
+ 2 docker inspect vol1
+ 3 cd /var/lib/docker/volumes/vol1/_data
+ 4 ls
+ 5 touch v1 v2 v3 v4 v5
+ 6 cat >raham
+ This volume is created by raham
+ 7 cd
+ 8 docker run -it --name c8 -v /var/lib/docker/volumes/vol1/_data:/def ubuntu
+ 9 ls 
+ 10 cd def
+ 11 ls
+ 12 cat raham
+ 13 touch r1 r2 r3 
+ 14 cat >r1
+  this is evening
+ 15 exit
+ 16 cd /var/lib/docker/volumes/vol1/_data/
+ 17 ls
+ 18 cat r1
 
 
  
