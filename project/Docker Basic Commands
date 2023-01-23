@@ -19,8 +19,15 @@
     17 docker stop caontainer name              - To stop the container 
     18 docker rm caontainer name                - To delete the container
     19 docker stop $(docker ps-a -q)            - To stop all the container 
-    20 docker rm $(docker ps-a -q)              - To delete all the stopped conatiners
+    20 docker rm $(docker ps-a -q)              - To delete all the stopped containers
     21 docker rmi -f $(docker image-q)          - To delete all images
+    22 docker conatiner ls                      - To see list of containers
+    23 docker conatiner ls -a                   - To see all running containers
+    24 docker coantiner ls -n 2                 - To see latest 2 continer
+    25 docker conatiner ls --latest             - To see the latest container
+    26 docker ls -a -q                          - To see all container id's
+    27 docker continer ls -a -s                 - To see containers 
+    28 docker stop -t 60 container id           - To stop container after some times
 
 
 
@@ -309,6 +316,393 @@ docker volume ls
  17 ls
  18 cat r1
 
+# Docker Swarm:
+
+#create three instance one master two worker
+
+1 sudo yum update -y
+2 sudo -i
+3 yum install docker -y
+4 systemctl start docker      - All nodes
+5 systemctl status docker
+6 hostnamectl set-hostname manager
+7 sudo -i
+8 hostnamectl set-hostname worker-1        - worker node
+9 sudo -i
+10 hostnamectl set-hostname worker-2       - worker node
+11 sudo -i
+12 hostname -i                             
+13 docker swarm init --advertise-adddr ip  - To initalizing 
+13 docker swarm join --token ---- to copy of the worker node both worker
+14 docker node ls 
+15 docker info                            - docker information
+16 docker swarm leave                     - to execute worker node
+17 docker node ls 
+18 docker node rm node id                - to execute worker node 
+19 docker swarm join --token ---- to copy of the worker node both worker - to execute both worker node after deleting
+20 docker node rm id __down node - 
+21 docker node ls 
+22 docker swarm leave    
+23 docker swarm leave --force   
+24 docker swarm init --advertise-adddr ip
+25 docker node ls
+26 docker swarm join-token worker 
+27 docker swarm join-token manager
+28 docker ps -a   - to execute worker node
+29 docker service create --name swiggy --replicas 3 -- publish 80:80 httpd
+30 docker ps -a   - to execute worker node
+31 docker ps -a
+32 docker node ls 
+copy public paste it browser
+ 
+33 docker service create --name zomato --replicas 4 -- publish 81:80 nginx
+34 docker service ls 
+35 docker ps -a
+36 docker ps -a   - to execute worker node
+opy public paste it browser 81
+38 docker service ps swiggy
+39 docker service ps zomato
+40 docker stop id 
+41 docker ps -a
+42 docker stop container id 
+43 docker service ps zomato
+44 docker service ls 
+45 docker service rm swiggy
+46 docker service ls
+47 docker service rm zomato
+
+                              
+
+
+# DOCKER COMPOSE INSTALLATION:
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose --version
+ls /usr/bin 
+docker-copose --version
+vim Docker-compose.yml
+version: '3'
+services:
+   swiggy:
+	Image:nginx
+	ports:
+	  -"8000:80"
+
+
+docker-compose up-d
+docker-compose ls
+docker-compose ps
+docker ps -a
+vim Docker-compose.yml
+version: '3'
+services:
+   swiggy:
+	Image:nginx
+	ports:
+	  -"8000:80"
+   zomato:
+       image:httpd
+	ports:
+	  - "8005:80"
+
+docker-compose up-d
+docker ps -a
+
+
+
+================================
+DOCKER COMPOSE APP DEPLOY:
+
+4 files:
+1. app.py
+2. docker-compose.yml
+3. Dockerfile
+4. requirements.txt
+===========================
+1. app.py:
+
+
+import time
+
+import redis
+from flask import Flask
+
+app = Flask(__name__)
+cache = redis.Redis(host='redis', port=6379)
+
+def get_hit_count():
+    retries = 5
+    while True:
+        try:
+            return cache.incr('hits')
+        except redis.exceptions.ConnectionError as exc:
+            if retries == 0:
+                raise exc
+            retries -= 1
+            time.sleep(0.5)
+
+@app.route('/')
+def hello():
+    count = get_hit_count()
+    return 'Hello World! I have been seen {} times.\n'.format(count)
+
+=========================================================================
+2. docker-compose.yml
+
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "8123:5000"
+  redis:
+    image: "redis:alpine"
+============================================================================
+3. Dockerfile
+
+FROM python:3.7-alpine
+WORKDIR /code
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+COPY . .
+CMD ["flask", "run"]
+===================================================================
+3. requirements
+
+flask
+redis
+=================================================================
+
+COMMAND TO BUILD: docker compose up -d
+===========================================================
+
+
+DOCKER STACK:
+
+docker-compose.yml
+
+version: '3'
+services:
+  web:
+    image: httpd:5000/test-app
+    ports:
+      - "8000:8000"
+  redis:
+     image: redis:alpine
+
+=================================================
+docker stack deploy --compose-file docker-compose.yml my-first-stack
+docker stack ls
+docker stack services <stack_name>
+docker stack ps my-first-stack
+docker stack rm my-first-stack
+
+
+
+
+
+###
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose --version
+
+yum install docker -y
+systectl start docker
+systectl status docker 
+vim docker-compose.yml
+version: '3'
+services:
+   abc:
+     image:httpd
+     ports:
+	-"8000:80"
+
+docker-compose up -d
+cat docker-compose.yml
+vim docker-compose.yml
+version: '3'
+services:
+   abc:
+	image:httpd
+	ports:
+	  -"8000:80"
+
+   "def": {
+	"image": "httpd",
+        "ports": [
+           "8001:80"
+	]
+      }
+   
+docker-compose up -d
+docker ps -a
+mv docker-compose,yml docker-compose1.yml
+ll
+docker compose up -d
+docker-compose -f docker-compose1.yml up -d
+docker-compose -f docker-compose1.yml down 
+docker-compose -f docker-compose1.yml up -d
+docker search ubuntu
+
+
+
+# Docker Push:
+
+1 yum install docker -y
+2 systectl start docker
+3 systectl status docker
+4 docker run -it --name c1 ubuntu
+5 apt update -y
+6 apt install git tree apache2 -y
+7 mkdir abc
+8 cd abc/
+9 touch file{1..10}
+10 cd
+11 docker ps -a
+12 docker commmit c1 img1
+13 docker images
+14 docker tag img1 RahulBorade/evebatch 
+15 docker images
+16 docker login
+username:Rahul Borade                                   
+passwd:
+17 docker push Rahulborade/evebatch 
+
+18 vim app.py
+
+import time
+
+import redis
+from flask import Flask
+
+app = Flask(__name__)
+cache = redis.Redis(host='redis', port=6379)
+
+def get_hit_count():
+    retries = 5
+    while True:
+        try:
+            return cache.incr('hits')
+        except redis.exceptions.ConnectionError as exc:
+            if retries == 0:
+                raise exc
+            retries -= 1
+            time.sleep(0.5)
+
+@app.route('/')
+def hello():
+    count = get_hit_count()
+    return 'Hello World! I have been seen {} times.\n'.format(count)
+
+
+
+
+19 vim docker-compose.yml
+
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "8123:5000"
+  redis:
+    image: "redis:alpine"
+ 
+20 vim Dockerfile
+
+FROM python:3.7-alpine
+WORKDIR /code
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+COPY . .
+CMD ["flask", "run"]
+
+
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose --version
+
+21 ll
+22 vim requirment.txt 
+flask
+redis
+
+23 ll
+24 cat docker-compose.yml
+25 docker-compose up -d
+26 cat Dockerfile
+27 docker ps -a
+copy the public ip into the browser :8123
+28 rm -rf *
+29 vim docker-compose.yml
+
+# DOCKER STACK:
+
+29 vim docker-compose.yml
+
+version: '3'
+services:
+  web:
+    image: httpd:5000/test-app
+    ports:
+      - "8000:8000"
+  redis:
+     image: redis:alpine
+
+30 docker stack deploy --compose-file docker-compose.yml swiggy
+31 docker swarm init --advertise-addr ip address 
+32 docker stack deploy --compose-file docker-compose.yml swiggy
+33 docker ps -a
+34 docker stack ls
+35 docker stack services <swiggy>
+36 docker stack ps my-first-stack
+37 docker stack rm my-first-stack
+38 vim docker-compose.yml
+version: '3.9'
+services:
+  swiggy:
+    image: httpd
+    ports:
+      - "81:80"
+  zomato:
+     image: nginx
+     ports:
+       -"82:80"
+  dunzo:
+     image: httpd
+     ports:
+       -"83:80"
+  uber:
+     image: httpd
+     ports:
+       -"84:80"
+39 docker ps -a
+40 docker images
+41 docker conatiner list
+42 docker conatiner ls -a
+43 docker conatiner -ls -n 2
+44 docker conatiner -ls n- 2 -a
+45 docker conatiner ls --latest
+46 docker conatiner rm -f $(docker conatiner ls -aq)
+47 docker conatiner ls -a -s 
+48 docker stop -t 60 conatiner id 
+49 docker conatiner ls -a -s 
+50 docker images
+51 docker rmi -f $(docker images -q)
 
  
 
