@@ -1,0 +1,161 @@
+Terraform:
+
+
+# Terrafrom Setup:
+
+1    sudo yum update -y
+2    sudo -
+3    sudo yum install -y yum-utils shadow-utils
+4    sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+5    sudo yum -y install terraform
+6    terrafrom version
+7    mkdir terraform
+8    cd terrafrom
+9    ll
+10   vim main.tf - All your code is main.tf
+
+provider "aws" {
+region ="us-east-1"
+}
+resource "aws_instance" "example" {
+ami =""
+instance_type ="t2.micro"
+}
+
+11   aws configure
+ AWS Access Key
+ AWS Secreat key :
+ Defualt Regin Name:
+ :Table
+12   ls -al
+13   cd ..
+14   ls -al 
+15   ls .aws
+16   cat .aws/credentials
+17   cat .aws/config
+18   cd terrafrom/
+19   ll
+20   terrafrom init - Terrafrom is working with aws soif you want to create a aws resource so you need to download the plugin that required for aws
+21   terraform plan
+22   terrafrom apply
+23   terraform destroy
+24   vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+resource "aws_instance" "example" {
+ami =""
+instance_type =var.instance_type
+}
+variable "instance_type" {
+description = "this is for instance type"
+type = string
+defualt = "t2.micro"
+}
+25   terraform plan
+26   terraform apply
+27   terraform destroy
+
+28   vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+resource "aws_instance" "example" {
+ami =""
+instance_type =var.instance_type
+count = var.instance_count
+}
+variable "instance_type" {
+description = "this is for instance type"
+type = string
+defualt = "t2.micro"
+}
+
+variable "instance_count" {
+description = "this is for instance count"
+type = number
+defualt =3
+}
+
+29   terraform plan
+30   terraform apply
+31   terraform destroy
+32   terraform apply --auto-aprove
+33   terraform destroy --auto-aprove
+
+
+# List/Tuple:
+
+34   vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+/*resource "aws_instance" "example" {
+ami =""
+instance_type =var.instance_type
+count = var.instance_count
+}
+variable "instance_type" {
+description = "this is for instance type"
+type = string
+defualt = "t2.micro"
+}
+
+variable "instance_count" {
+description = "this is for instance count"
+type = number
+defualt =3
+}*/
+
+resource "aws_iam_user" "example" {
+count = length(var.user_name)
+name = var.user_name[count.index]
+}
+variable "user_name" {
+description =""
+type = list(string)
+defualt = ["user1","user2","user3"]
+}
+
+35   terraform apply --auto-approve
+36   terraform destroy --auto-approve
+
+
+# Map/Obejct:
+
+37   vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+resource "aws_instance" "example" {
+ami =""
+instance_type = "t2.micro"
+tags = var.pro_env
+}
+variable "pro_env" {
+description = "this is for instance type"
+type = map(string)
+defualt = {
+project = "swiggy"
+env = "prod"
+manager = "raham"
+}
+}
+
+38   terraform apply --auto-approve
+39   terraform destroy --auto-approve
+40   vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+resource "aws_instance" "example" {
+ami =""
+instance_type = "t2.micro"
+tags = {
+Name = "raham"
+}
+}
+
+41   terraform apply --auto-approve
+42   terraform destroy --auto-approve
+
