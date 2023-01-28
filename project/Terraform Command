@@ -159,3 +159,132 @@ Name = "raham"
 41   terraform apply --auto-approve
 42   terraform destroy --auto-approve
 
+# For Loop
+
+1 vim main.tf
+proivder "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "example" {
+ami = var.instance_id
+instance_type = "t2.micro"
+tags = {
+Name = "raham"
+}
+}
+
+
+2  vim variable.tf
+  variable "instance_id" {
+decription =""
+type = string
+defualt = copy paste ami id
+}
+
+3  terraform init
+4  terraform plan
+5  cd
+6  vim .aws/credentials
+7  cd terrafrom
+8  terraform init
+9  terraform plan
+10 terrform apply --auto-approve
+11 ll
+
+# Terrafrom.tfvars
+
+12 vim main.tf
+proivder "aws" {
+region = "us-east-1"
+}
+resource "aws_instance" "example" {
+ami = var.instance_id
+instance_type = "var.instance_type"
+tags = {
+Name = "raham"
+}
+}
+13 vim variable.tf
+  variable "instance_id" {
+}
+variable "instance_type" {
+}
+14  ll
+15  vim swiggy.tfvar
+
+instance_id = "Redhat ami id"
+instance_type = "t2.micro"
+
+16  vim zomato.tfvar
+
+instance_id = "Ubuntu ami id"
+instance_type = "t2.large"
+
+17  cat variable.tf
+18  cat swiggy.tfvars
+19  cat zomato.tfvars
+20  terraform plan -var-file="swiggy.tfvars"
+21  terraform destroy --auto-apporve
+22  terraform apply -var-file="swiggy.tfvars" -lock=false
+23  terraform destroy
+24  terraform destroy -var-file="swiggy.tfvars" --auto-approve -lock=false
+25  terraform plan -var-file="zomato.tfvars"
+26  terraform apply -var-file="zomato.tfvars" --auto-approve -lock=false
+27  terraform destroy -var-file="zomato.tfvars" --auto-approve -lock=false
+28  ll
+29  rm -rf *.tfvars
+30  vim main.tf
+proivder "aws" {
+region = "us-east-1"
+}
+resource "aws_instance" "example" {
+ami = "copy paste ami id"
+instance_type = "var.instance_type"
+tags = {
+Name = "raham"
+}
+}
+variable "instance_type" {
+}
+31  terraform plan -var="instance_type=t2.medium" -lock=false
+32  terraform apply -var="instance_type=t2.medium" -lock=false
+33  terraform destroy -var="instance_type=t2.medium" -lock=false
+
+34 vim main.tf
+proivder "aws" {
+region = "us-east-1"
+}
+
+local {
+abc = "producation"
+}
+
+resource "aws_vpc" "staging-vpc" {
+cidr_block = "10.5.0.0/16"
+tags = {
+Name = "${local.staging_env}-vpc" 
+}
+}
+
+resource "aws_subnet" "staging-subnet" {
+vpc_id = aws_vpc.staging_vpc-vpc.id
+cidr_block = "10.5.0.0/16"
+tags = {
+Name = "${local.staging_env}-subnet
+}
+}
+
+resource "aws_instance" "abc_subnet" {
+ami = "copy paste ami id"
+instance_type = "t2.micro"
+subnet_id = aws_subnet.staging-subnet.id
+tags = {
+Name = "${local.staging_env}-instance"
+}
+}
+
+35  terraform plan
+36  terraform plan -lock=false
+37  terraform apply -lock=false
+38  terraform destroy -lock=false
