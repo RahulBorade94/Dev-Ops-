@@ -68,7 +68,7 @@ Terraform:
    
 
 
-# Terrafrom Setup:
+########## Terrafrom Setup #############
 
 1    sudo yum update -y
 2    sudo -
@@ -89,7 +89,7 @@ ami =""
 instance_type ="t2.micro"
 }
 
-11   aws configure
+11 aws configure
  AWS Access Key
  AWS Secreat key :
  Defualt Regin Name:
@@ -119,11 +119,11 @@ description = "this is for instance type"
 type = string
 defualt = "t2.micro"
 }
-25   terraform plan
-26   terraform apply
-27   terraform destroy
+25 terraform plan
+26 terraform apply
+27 terraform destroy
 
-28   vim main.tf
+28 vim main.tf
 provider "aws" {
 region ="us-east-1"
 }
@@ -144,16 +144,16 @@ type = number
 defualt =3
 }
 
-29   terraform plan
-30   terraform apply
-31   terraform destroy
-32   terraform apply --auto-aprove
-33   terraform destroy --auto-aprove
+29 terraform plan
+30 terraform apply
+31 terraform destroy
+32 terraform apply --auto-aprove
+33 terraform destroy --auto-aprove
 
 
-# List/Tuple:
+######### List/Tuple ############
 
-34   vim main.tf
+34 vim main.tf
 provider "aws" {
 region ="us-east-1"
 }
@@ -184,13 +184,13 @@ type = list(string)
 defualt = ["user1","user2","user3"]
 }
 
-35   terraform apply --auto-approve
-36   terraform destroy --auto-approve
+35 terraform apply --auto-approve
+36 terraform destroy --auto-approve
 
 
-# Map/Obejct:
+########## Map/Obejct #############
 
-37   vim main.tf
+37 vim main.tf
 provider "aws" {
 region ="us-east-1"
 }
@@ -209,9 +209,9 @@ manager = "raham"
 }
 }
 
-38   terraform apply --auto-approve
-39   terraform destroy --auto-approve
-40   vim main.tf
+38 terraform apply --auto-approve
+39 terraform destroy --auto-approve
+40 vim main.tf
 provider "aws" {
 region ="us-east-1"
 }
@@ -223,10 +223,10 @@ Name = "raham"
 }
 }
 
-41   terraform apply --auto-approve
-42   terraform destroy --auto-approve
+41 terraform apply --auto-approve
+42 terraform destroy --auto-approve
 
-# For Loop
+######### For Loop ############
 
 1 vim main.tf
 proivder "aws" {
@@ -259,7 +259,7 @@ defualt = copy paste ami id
 10 terrform apply --auto-approve
 11 ll
 
-# Terrafrom.tfvars
+######### Terrafrom.tfvars #############
 
 12 vim main.tf
 proivder "aws" {
@@ -277,13 +277,13 @@ Name = "raham"
 }
 variable "instance_type" {
 }
-14  ll
-15  vim swiggy.tfvar
+14 ll
+15 vim swiggy.tfvar
 
 instance_id = "Redhat ami id"
 instance_type = "t2.micro"
 
-16  vim zomato.tfvar
+16 vim zomato.tfvar
 
 instance_id = "Ubuntu ami id"
 instance_type = "t2.large"
@@ -357,7 +357,7 @@ Name = "${local.staging_env}-instance"
 38  terraform destroy -lock=false
 
 
-# terraform Output:
+############ terraform Output ############
 
  1 sudo -i
  2 cd terrafrom
@@ -398,7 +398,7 @@ value = "i have created the ec2 instance with t2.micro"
  8 terrafrom apply --auto-approve
  9 terrafrom destroy --auto-approve
 
-# loops with count:
+########## loops with count #############
 
 
 10 vim main.tf
@@ -425,7 +425,7 @@ default = ["raham","sai","rajesh","raham"]
 }
 11 terrafrom apply --auto-approve
 
-# for each
+######### for each ############
 12 vim main.tf
 
 provider "aws" {
@@ -477,7 +477,7 @@ default = ["raham","sai","rajesh" "raham"]
 }
  17 terrafrom apply --auto-approve
 
-# terrafrom Workspace :
+############### terrafrom Workspace ##################
 
 1 terraform workspace show       - will show on current workspace by defult we have
 2 terraform workspace list       - will give of the list of workspace 
@@ -564,8 +564,239 @@ acl = "priavte"
 2 cd terraform/
 3 vim main.tf
 
---- Dynamic block code ----
+######## Dynamic block code ##########
 
 4 terrafrom init
 5 terrfrom apply --auto-approve
 6 terrafrom destroy --auto-approve
+
+######## EBS ##########
+7 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+
+resource "aws_ebs_volume" "example" {
+availability_zone = "us-east-1a"
+size =40
+tags ={
+Name="hello word"
+}
+}
+8 terrfrom apply --auto-approve
+9 terraform validate  - check the configuration
+10 cat main.tf
+11 terraform fmt       - check innotation
+12 cat main.tf
+13 terrfrom apply --auto-approve
+
+
+####### RDS ##########
+
+1 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+ resource "aws_rds_cluster" "default" {
+ cluster_identifier = "aurora-cluster-demo"
+ engine = "aurora-mysql"
+ engine_version = "5.7.mysql_aurora.2.10.2"
+ availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+ database_name = "mydb"
+ master_username = ""
+ master_password = "Raham666777"
+ backup_retention_period = 5
+ preferred_backup_window = "07:00-09:00"
+}
+
+2 terrafrom validate 
+3 terrfrom apply --auto-approve
+4 terrfrom destroy --auto-approve
+
+######## EFS ##########
+
+11 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+
+resource "aws_efs_file_system" "foo" {
+ creation_token = "my-product"
+ tags = {
+ Name = "MyProduct"
+ }
+
+
+
+####### ALIAS & PROVIDER ########
+
+1 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+
+provider "aws" {
+alis = "south"
+region = "ap-south-1"
+}
+
+resource "aws_instance" "example" {
+ami ="copy paste ami id"
+instance_type = "t2.micro"
+}
+
+resource "aws_instance" "example_raham" {
+ami ="copy paste ami id from mumbai region"
+instance_type = "t2.medium"
+}
+provider = aws.south
+
+2 terraform validate
+3 terrfrom apply --auto-approve
+4 terrfrom destroy --auto-approve
+
+######## local ###########
+
+1 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+
+resource "local_file" "abc" {
+filename = "/root/terrform/abc.txt"
+content = "this file is created by terrafrom"
+file_permission ="444"
+
+}
+
+2 terrafrom init - upgrade
+3 terrfrom apply --auto-approve
+4 ll
+5 cd 
+6 ll
+7 cat abc.txt
+8 ll
+9 cd terrafrom/
+10 terrfrom apply --auto-approve
+11 ll
+12 terraform init
+13 vim main.tf
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.38.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+14 terraform init -upgrade
+15 vim main.tf
+vim main.tf
+
+terraform {
+  required_providers {
+    local = {
+      source = "hashicorp/aws"
+      version = "2.1.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+16 terraform init -upgrade
+
+
+######### Terrafrom module ##########
+
+terraform {
+  required_providers {
+    local = {
+      source = "hashicorp/aws"
+      version = "2.1.0"
+    }
+  }
+}
+
+provider "aws" {
+region ="us-east-1"
+}
+resource "local_file" "abc" {
+filename = "/root/terrform/abc.txt"
+content = "this file is created by terrafrom"
+file_permission ="444"
+}
+
+17 terraform apply --auto-approve
+
+
+######## Terraform Module #########
+
+1 vim main.tf
+
+terraform {
+  required_providers {
+    local = {
+      source = "hashicorp/local"
+   }
+  }
+}
+
+module "my_instance_module" {
+ source = "./modules/instances"
+ ami = "ami id copy paste"
+ instance_type = "t2.micro"
+ instance_name = "myvm01"
+}
+
+
+2 Provider.tf
+provider "aws" {
+region ="us-east-1"
+access_key =""
+secret_key =""
+}
+
+2 mkdir -p modules/instances
+3 vim modules/instance/main.tf
+resource "aws_instance" "my_instance" {
+ ami = var.ami
+ instance_type = var.instance_type
+ tags = {
+ Name = var.instance_name
+ }
+}
+
+4 vim modules/instance/variable.tf
+variable "ami" {
+ type = string
+}
+variable "instance_type" {
+ type = string
+}
+variable "instance_name" {
+ description = "Value of the Name tag for the EC2 instance"
+ type = string
+}
+
+5  yum install tree -y
+6  ll
+7  tree
+8  cat main.tf
+9  cat modules/instance/main.tf
+10 cat modules/instance/variable.tf
+11 terraform init
+12 terraform apply --auto-approve
+13 cat /root/.aws/credentials
+14 terraform apply --auto-approve
+15 terraform destroy --auto-approve
+16 cat terraform.tfstate
+
+
