@@ -355,3 +355,217 @@ Name = "${local.staging_env}-instance"
 36  terraform plan -lock=false
 37  terraform apply -lock=false
 38  terraform destroy -lock=false
+
+
+# terraform Output:
+
+ 1 sudo -i
+ 2 cd terrafrom
+ 3 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+resource "aws_instance" "ec2_example" {
+ami =""
+instance_type ="t2.micro"
+tags = {
+Name = "Raham"
+}
+}
+
+output "my_console_output" {
+value = aws_instance.ec2_example.public_ip
+}
+
+ 4 terrafrom init
+ 5 terraform plan
+ 6 terrafrom apply --auto-approve
+ 7 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+resource "aws_instance" "ec2_example" {
+ami =""
+instance_type ="t2.micro"
+tags = {
+Name = "Raham"
+}
+}
+
+output "my_console_output" {
+value = "i have created the ec2 instance with t2.micro"
+}
+ 8 terrafrom apply --auto-approve
+ 9 terrafrom destroy --auto-approve
+
+# loops with count:
+
+
+10 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+/*resource "aws_instance" "ec2_example" {
+ami =""
+instance_type ="t2.micro"
+tags = {
+Name = "Raham"
+}
+}*/
+
+resource "aws_iam_user"  "example" {
+count = length(var.user_names)
+name = var.user_names[count.insex]
+}
+
+varibale "user_names" {
+description = ""
+type = list(string)
+default = ["raham","sai","rajesh","raham"]
+}
+11 terrafrom apply --auto-approve
+
+# for each
+12 vim main.tf
+
+provider "aws" {
+region ="us-east-1"
+}
+/*resource "aws_instance" "ec2_example" {
+ami =""
+instance_type ="t2.micro"
+tags = {
+Name = "Raham"
+}
+}*/
+
+resource "aws_iam_user"  "example" {
+count = length(var.user_names)
+for_each =var.user_names
+name = each.value
+}
+varibale "user_names" {
+description = ""
+type = set(string)
+default = ["raham","sai","rajesh" "raham"]
+}
+
+13 terrafrom destroy --auto-approve
+14 terrafrom apply --auto-approve
+15 terrafrom destroy --auto-approve
+16 vim main.tf
+
+provider "aws" {
+region ="us-east-1"
+}
+/*resource "aws_instance" "ec2_example" {
+ami =""
+instance_type ="t2.micro"
+tags = {
+Name = "Raham"
+}
+}*/
+
+output "my_console_output" {
+value = [for name in var.user : name]
+}
+
+varibale "user_names" {
+description = ""
+type = set(string)
+default = ["raham","sai","rajesh" "raham"]
+}
+ 17 terrafrom apply --auto-approve
+
+# terrafrom Workspace :
+
+1 terraform workspace show       - will show on current workspace by defult we have
+2 terraform workspace list       - will give of the list of workspace 
+3 terraform workspace new dev    - To create new workspace
+4 terraform workspace new test
+5 terraform workspace new prod
+6 terraform workspace list 
+7 terraform workspace show  
+8 terraform workspace delete (workspace-name)  -if you want to delete the workspace 
+9 terraform workspace select dev     -if you want to switch one workspace to another workspace
+10 cat main.tf
+11 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+
+locals {
+instance_name = "${terrafrom.workspace}-instance"
+}
+resource "aws_instance" "ec2_example" {
+ami =""
+instance_type ="t2.micro"
+tags = {
+Name = local.instance_name
+}
+}
+12 terrafrom workspace show
+13 cat main.tf
+14 terrafrom apply --auto-approve
+15 terraform workspace select prod
+16 cat main.tf
+17 terrafrom apply --auto-approve
+18 terraform workspace delete prod
+19 terraform workspace delete dev
+20 terrafrom destroy --auto-approve
+21 terraform workspace select dev
+22 terraform workspace delete prod
+23 terraform workspace delete test
+24 terraform workspace select default
+25 erraform workspace delete dev
+26 terraform workspace list 
+27 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+
+/*resource "aws_instance" "ec2_example" {
+ami =""
+instance_type ="t2.micro"
+tags = {
+Name = local.instance_name
+}
+}*/
+
+resource "aws_s3_bucket" "example" {
+bucket = "rahul7787878"
+}
+
+28 terrafrom apply --auto-approve
+29 terrafrom destroy --auto-approve
+30 vim main.tf
+provider "aws" {
+region ="us-east-1"
+}
+
+/*resource "aws_instance" "ec2_example" {
+ami =""
+instance_type ="t2.micro"
+tags = {
+Name = local.instance_name
+}
+}*/
+
+resource "aws_s3_bucket" "example" {
+bucket = "rahul7787878"
+acl = "priavte"
+}
+31 terrafrom apply --auto-approve
+32 terrafrom destroy --auto-approve
+
+# Dynamic Block - the main purpose of dynamic block is reusalbilty of code
+
+1 sudo -i
+2 cd terraform/
+3 vim main.tf
+
+--- Dynamic block code ----
+
+4 terrafrom init
+5 terrfrom apply --auto-approve
+6 terrafrom destroy --auto-approve
