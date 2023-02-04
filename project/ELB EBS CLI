@@ -1,0 +1,77 @@
+# ELB (Elastic Load Balancer) :
+
+1 sudo yum update -y
+2 sudo -i
+3 yum install httpd -y
+4 systemctl status httpd
+5 systemctl start httpd
+6 systemctl status httpd
+7 cd /var/www/html
+8 ll
+9 vim index.html
+<h1> This is my amazon website running on server-one </h1>
+<h1> This is my amazon website running on server-two </h1>
+<h1> This is my amazon website running on server-Three </h1>
+
+
+# EBS (Eleastic Block Store):
+
+1 sudo yum update -y
+2 sudo -i
+3 touch file{1..10}
+4 vim file1
+  this is file one
+5 ll
+6 lsblk
+
+
+# CLI(Command Line Interface)
+
+1 sudo yum update -y
+2 sudo -i
+3 aws configure
+Access key_id
+Secerate access Key_id
+table
+4 aws s3 ls
+5 aws s3 ls bucket name
+6 aws s3 mb s3://raham01     - To create a bucket mb -make bucket
+7 aws s3 ls
+8 aws s3 ls rb s3://raham01  - To remove the bucket rb -remove bucket
+9 aws s3 mb s3://raham01 
+10 vim file1
+this is my file1
+11 ll
+12 aws s3 cp file1 s3://raham01         - copy from local to bucket
+13 aws s3 cp copy URI s3://raham01/ .   - copy from bucket to server
+14 aws s3 mb s3://raham02
+15 aws s3 sync s3://raham01 s3://raham02
+16 aws s3 ls rb s3://raham02
+17 aws s3 ls rb s3://raham02 -- force
+18 mkdir abc
+19 mv * abc/
+20 ll
+21 ls abc/
+22 aws s3 cp abc s3://raham01/xyz -- recursive
+23 aws s3api put-bucket-versioning -- bucket raham01 --versioning --versioning-configuration status= enabled
+24 aws s3api put-bucket-versioning -- bucket raham01 --versioning --versioning-configuration status= suspeneded
+
+
+# Instances:
+
+1 aws ec2 describe-instances
+2 aws ec2 describe-instances --instance --ids copy paste instance id
+3 aws ec2 stop-instances --instance --ids copy paste instance id
+4 aws ec2 start-instances --instance --ids copy paste instance id
+5 aws ec2 help
+6 aws ec2 describe-
+7 aws iam create-user --user-name rahul
+8 aws iam create-group --group-name devops
+9 aws iam delete-group --group-name devops
+10 aws iam delete-user --user-name rahul
+11 aws iam create-role --role-name 
+12  
+
+
+
+
