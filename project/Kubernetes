@@ -113,7 +113,7 @@ spec:
 containers:
 - image: nginx
 name: nginx
-================
+=====================================================================================
 
 TO DELETE EXISTING POD: kubectl delete pod nginx
 TO CREATE A POD: kubectl create -f pod-nginx.yml
@@ -206,3 +206,149 @@ https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 45 kops update cluster --name nareshit.k8s.local --yes --admin
 46 kops delete cluster --name nareshit.k8s.local --yes --admin
 47 history
+
+=================================================================================
+
+
+#
+1 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+2 unzip awscliv2.zip
+3 sudo ./aws/install
+4 aws configure   
+
+access key_id
+scerat key_id 
+defualt regon - us-east-1
+table
+5 vim .bashrc
+export PATH=$PATH:/usr/local/bin/
+6 source .bashrc
+7 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+8 wget https://github.com/kubernetes/kops/releases/download/v1.24.1/kops-linux-amd64
+9 ll
+10 chmod 777 kubectl kops-linux-amd64
+11 ll
+12 mv kubectl /usr/local/bin/kubectl
+13 mv kops-linux-amd64 /usr/local/bin/kops
+14 kops
+15 kubectl
+16 aws
+17 aws s3api create-bucket --bucket gyps2288.k8s.local --region us-east-1
+18 aws s3api put-bucket-versioning --bucket gyps2288.k8s.local --region us-east-1 --versioning-configuration Status=Enabled
+19 export KOPS_STATE_STORE=s3://gyps2288.k8s.local
+20 ssh-keygen 
+21 kops create cluster --name gyps2288.k8s.local --zones us-east-1a --master-size t2.medium --node-size t2.micro
+22 kops update cluster --name gyps2288.k8s.local --yes --admin
+23 kops validate cluster --wait 10m
+24 kops get cluster
+25 kubectl get no
+26 kubectl get no -o wide
+27 kubectl run pod raham --image nginx:alpine
+28 kubectl get po4
+29 kubectl get po
+30 kubectl run raham --image nginx:alpine
+31 kubectl get po
+32 kubectl delete pod pod
+33 kubectl delete pod raham
+34 vim nginx.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: raham
+spec:
+  containers:
+  - name: cont-1
+    image: nginx
+    
+
+35 kubectl create -f nginx.yml
+36 kubectl get po
+37 kubectl delete po raham
+38 kubectl get po
+39 vim replicaset.yml
+
+apiVersion: apps/v1
+kind: ReplicaSet 
+metadata:
+  label : 
+    run : nginx
+    name: nginx-replicaset  
+spec:
+  replica: 3
+  selector:
+    matchLabels:
+      run:nginx
+  template:
+     metadata:
+       labels:
+         run:nginx
+     spec:
+       containers:
+        - name: nginx
+           image: nginx
+
+40 kubectl create -f replicaset.yml
+41 kubectl get rs
+42 kubectl get po
+43 kubectl delete po copy name
+44 kubectl get po
+45 kubectl delete po copy name
+46 kubectl get po -o wide
+47 curl http:// ip 
+48 kubectl get po
+49 kubectl get po -o wide
+50 kubectl describe pod/name copy paste
+51 kubectl get rs
+52 kubectl delete rs replicaset
+53 vim deployment-nginx.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  label : 
+    run : nginx
+    name: nginx-replicaset  
+spec:
+  replica: 3
+  selector:
+    matchLabels:
+      run:nginx
+  template:
+     metadata:
+       labels:
+         run:nginx
+     spec:
+       containers:
+        - name: nginx
+           image: nginx
+
+54 kubectl create -f deployment-nginx.yml
+55 kubectl get deployment
+56 kubectl get all
+57 kubectl delete copy paste name 
+58 kubectl delete rs copy paste name
+59 kubectl get rs
+60 kubectl get rs ngnix-replicaset (copy paste name)
+61 kubectl get all
+62 kubectl get deployment
+62 kubectl delete deployment (copy paste name)
+63 kubectl get all
+
+===========================================================
+# Namespcae
+
+1 sudo -i
+2 sudo apt update -y
+3 kubectl get ns
+4 kubectl get all -n defualt
+5 kubectl get all -n kube-system
+6 kubectl create ns raham
+7 kubectl get ns
+8 sudo -i
+9 kubectl config set-context $(kubectl config current-context) -- namespace=raham
+
+=====================================================================================
+
+# EKS (Elastic Kubernates service)
+
