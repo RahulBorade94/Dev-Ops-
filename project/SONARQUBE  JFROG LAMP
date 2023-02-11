@@ -1,0 +1,51 @@
+# SONARQUBE
+1. Install JAVA-11 : sudo amazon-linux-extras install java-openjdk11
+2 Wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.9.6.50800.zip
+3 unzip sonarqube-8.9.6.50800.zip
+4 cd sonarqube-8.9.6.50800/bin /linux-x86-64/
+5 vi conf/sonar.properties
+6 find / -name java
+7 find / -name sonar.properties
+8 vim wrapper.conf
+9 cd ~ 
+10 cp -R sonarqube-8.9.6.50800 /home/ec2-user/ 
+11 logout 
+12 ll
+13 Sudo chown -R ec2-user:ec2-user/home/ec2-user/ 
+14 ll 
+15 cd sonarqube-8.9.6.50800
+16 cd/bin/
+17 cd linux-x86-64/
+18 ./sonar.sh console
+19 Now give Public ip:9000/sonarqube in a browser (username: admin password: admin).
+
+===========================================================================================
+# JFROG
+INSTALLATION:
+AMI: LINUX AMI INSTANCE: T2 MEDIUM S.G : 8081 & ANYWHERE
+
+1 wget https://releases.jfrog.io/artifactory/artifactory-rpms/artifactory-rpms.repo -O jfrog-artifactory-rpms.repo
+
+2 mv jfrog-artifactory-rpms.repo /etc/yum.repos.d/
+3 yum update && yum install jfrog-artifactory-oss
+4 systemctl start artifactory.service
+5 systemctl enable artifactory.service
+6 systemctl status artifactory.service
+7 creds: admin password: password
+===========================================================================================
+
+# LAMP
+
+1 apt upgrade -y
+2 apt install apache2 -y
+3 apt install mysql-server -y
+4 sudo mysql
+5 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by ‘my-secret-password';
+6 exit
+7 mysql -u root -p
+8 apt install php libapache2-mod-php php-mysql -y
+9 php - -version
+10 mysql - -version
+11 apache2 -version
+12 cd /var/www/html
+copy public ip and paste it on browser
