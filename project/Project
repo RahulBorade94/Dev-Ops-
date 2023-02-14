@@ -1,0 +1,45 @@
+DEPLOYING A WEB APPLICATION USING TOMCAT SERVER
+
+STEP-1: LAUNCH 2 INSTANCES (MASTER & SLAVE) WITH 8080 PORTS WITH KEYPAIR
+
+STEP-2: JENKINS SETUP IN MASTER (install only epel, java11 $ jenkins)
+
+STEP-3: INSTALL THE PLUGIN (DEPLOY TO WAR/EAR TO CONTAINER)
+
+STEP-4: INSTALL JAVA-OPENJDK11 IN SLAVE
+
+STEP-5: SETUP AN AGENT IN MASTER
+
+STEP-6: INSTALL GIT IN MASTER & SLAVE
+
+STEP-7: GET THE SOURCE CODE FROM THE GITHUB( https://github.com/devops0014/myweb-01.git )
+
+STEP-8: INSTALL JAVA-1.8.0-OPENJDK IN MASTER & SLAVE (update-alternatives --config java)
+
+STEP-9: INSTALL MAVEN IN MASTER & SLAVE
+
+STEP-10: GO TO JENKINS>>BUILD STEP>> INVOKE TOP LEVEL MAVEN TARGETS >> CLEAN PACKAGE
+AND BUILD NOW
+
+STEP-11: GO TO SLAVE AND INSTALL TOMCAT
+(https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.70/bin/apache-tomcat-9.0.70.tar.gz)
+
+● tar -zxvf file_name
+● go to apachefolder
+● vim webapps/manager/META-INF/context.xml
+
+Delete these 2 lines (21 & 22)
+
+● vim conf/tomcat-users.xml
+Add these 3 lines at the end of the file
+● ./bin/startup.sh
+Tomcat will get starts
+Public_ip:8080
+Go to manager apps
+
+STEP-12: go to Jenkins >> add build step >> deploy war ear to container
+
+STEP-13: ADD CONTAINER-9, GIVE TOMCAT URL AND TOMCAT CREDENTIALS (USERNAME: tomcat,
+PASSWORD: tomcat) [target/*.war & /swiggy]
+
+STEP:14 : POST BUILD ACTIONS -- > DEPLOY TO EAR/WAR CONTAINER -- > DETAILS
