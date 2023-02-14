@@ -43,3 +43,98 @@ STEP-13: ADD CONTAINER-9, GIVE TOMCAT URL AND TOMCAT CREDENTIALS (USERNAME: tomc
 PASSWORD: tomcat) [target/*.war & /swiggy]
 
 STEP:14 : POST BUILD ACTIONS -- > DEPLOY TO EAR/WAR CONTAINER -- > DETAILS
+=================================================================================================================
+
+git repo: https://github.com/RAHAMSHAIK007/myweb
+
+git repo https://github.com/devops0014/myweb-01.git
+
+
+# Project:
+Access _key:
+AKIAWMLTEZNAC26X5GII
+3n2gKdhV/ayiA1wGtmef+JSFvUEEZN4NPdfwxb63
+
+
+#Master & Slave
+
+# master
+
+1 sudo yum update -y
+2 sudo -i
+3 sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+4 sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+5 amazon-linux-extras install epel -y
+6 amazon-linux-extras install java-openjdk11 -y
+7 yum install jenkins -y
+8 systemctl start jenkins.service
+9 systemctl status jenkins.service
+
+/var/lib/jenkins/secrets/initialAdminPassword
+
+10 yum install git -y   - both the node
+11 yum install java-1.8.0-openjdk -y    both the node
+12 update-alternatives --config java    both the node
+12 java -version
+13 yum install maven -y  both the node
+14 mvn -version
+15 
+
+# slave
+1 sudo yum update -y
+2 sudo -i
+3 amazon-linux-extras install java-openjdk11 -y 
+4 hostname -i
+5 yum install git -y
+6 yum install java-1.8.0-openjdk -y both the node
+7 update-alternatives --config java 
+8 java -version
+9  yum install maven -y
+10 mvn -version 
+11 cd /tmp/workspace/swiggy-project/
+12 cd target/
+13 ll
+14 aws configure
+access
+secreat
+15 aws s3 mb s3://rahuldeployment9988
+16 ll
+17 aws s3 cp myweb-8.3.2-SNAPSHOT.war s3://rahuldeployment9988/version-1/
+18 cd 
+20 wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.71/bin/apache-tomcat-9.0.71.tar.gz
+21 11
+22 tar -zxvf  apache-tomcat-10.1.5.tar.gz
+23 ll
+24 cd apache-tomcat-10.1.5.tar.gz/
+25 11
+26 cd conf/
+27 ll                      7
+28 cd ..
+29 cd webapps/
+30 ll
+31 cd manager
+32 ll
+33 cd META-INF/
+34 ll
+35 vim context.xml
+36 cd ../cd../../
+37 cd conf/   
+38 ll
+39 vim tomcat-users.xml
+40 cd ..
+41 ll
+42 cd bin/
+43 ./startup.sh
+44 cd /tmp/workspace/swiggy-project/
+45 cd target/
+46 ll
+47 
+
+                                                                                                                                   
+# Shell :
+echo "the job name is: ${JOB_NAME}"
+echo "the bulid number is: ${BUILD_NUMBER}"
+echo "the bulid url is: ${BUILD_URL}"
+echo "the branch is: ${GIT_BRANCH}"
+echo "the build is done: ${NODE_NAME}"
+
