@@ -1,0 +1,47 @@
+# JFROG INSTALLATION:
+AMI: LINUX AMI INSTANCE: T2 MEDIUM S.G : 8081 & ANYWHERE
+
+1 sudo yum update -y
+2 sudo -i
+3 wget https://releases.jfrog.io/artifactory/artifactory-rpms/artifactory-rpms.repo -O
+jfrog-artifactory-rpms.repo
+4 ll
+5 mv jfrog-artifactory-rpms.repo /etc/yum.repos.d/
+6 yum update -y 
+7 yum install jfrog-artifactory-oss
+8 systemctl start artifactory.service
+9 systemctl enable artifactory.service
+10 systemctl status artifactory.service
+==================================================================
+
+# LAMP 
+
+1 apt upgrade -y
+2 apt install apache2 -y
+3 apt install mysql-server -y
+4 sudo mysql
+5 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by ‘my-secret-password';
+6 exit
+7 mysql -u root -p
+8 apt install php libapache2-mod-php php-mysql -y
+9 php - -version
+10 mysql - -version
+11 apache2 -version
+12 cd /var/www/html
+copy public ip and paste it on browser
+======================================================================
+
+# Virtual Enviorment 
+
+1 sudo apt-get install python3-pip
+2 sudo pip3 install virtualenv
+3 cd $YOUR_PROJECT_DIRECTORY
+4 mkdir swiggy
+5 cd swiggy
+6 virtualenv .dev
+7 source .dev/bin/activate
+8 (.dev) ~/project$
+9 pip install <package_name>
+10 deactivate
+11  ll
+12 virtualenv .prod
