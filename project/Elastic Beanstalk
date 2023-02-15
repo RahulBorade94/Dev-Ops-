@@ -1,0 +1,62 @@
+CODE PIPELINE WITH ELASTIC BEANSTALK
+
+1  Create an environment of NODE.JS by using elastic bean stalk.
+
+2  Show them the output by clicking on link
+
+3  Download a basic python code form below link:https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/samples/nodejs.zip
+
+4  Code commit -- > source -- > create Repo -- > select repo and clone url -- > clone HTTPS
+
+5  Open git bash -- >
+
+6  git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/swiggy
+
+7  Now it will ask for credentials
+
+8  Create an iam role and adminstartor access
+
+9  Open the user and get http git creds
+
+10  Now it will get repo got to repo inside and check : it will show Mustafa
+
+11  Open your local drive and open that path by selecting any file
+
+12  Now you will find zepto therr
+
+13  Place your node js code on that zepto repo all files
+
+14  Now you will see all of those on git bash use ll command
+
+15  Change application.py and commit those and give git push, the all files will pushed.
+
+16  Pipeline -- > create -- > name -- > next -- > provider: aws code commit -- > repo name : zepto
+
+17  Branch -- > master -- > next -- > skip build stage -- > Deploy provoider : elastic beanstalk
+
+18  Application name -- > environment name -- > next -- > create pipeline
+
+19  Now see the page it will be changed
+
+20  Modify one more time and commit and give git push it will be automatically deployed.
+================================================================================================
+
+# Git bash
+
+1 git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/zepto
+2 cd swiggy
+3 ll
+4 vim index.html
+<p> This is application deploy raham by using aws code pipeline
+5 git add * 
+6 git commit -m "version-1 commits" *
+7 git push
+8 git branch
+9 git status
+10 vim index.html
+<p> This is my version-2 </p>
+11 git add * 
+12 git commit -m "version-1 commits" *
+13 git push
+
+ 
