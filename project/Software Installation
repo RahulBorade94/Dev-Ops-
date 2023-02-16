@@ -1,0 +1,77 @@
+# Ubuntu
+
+1 sudo apt-get update
+2 sudo -i
+3 apt-get install default-jdk -y
+4 apt-get install default-jre -y
+5 java -version
+6 vim demo.java
+// Your First Program
+
+class demo {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!"); 
+    }
+}
+
+7 javac demo.java
+8 java demo
+=========================================================================
+
+#PYTHON
+
+1 sudo apt-get update -y
+2 sudo apt-get install python3 -y
+3 sudo apt-get install python3.8 -y
+4 python3
+5 print('MY NAME IS RAHUL BORADE')
+
+=======================================================================
+
+# Nodes JS
+
+1 apt install nodejs -y
+2 node -v
+3 nodejs : To run the nodejs use the command 
+console.log('hello world')
+4 .exit : To  the from it use 
+
+=======================================================================
+# ARANGO installation on UBUNTU
+
+1 echo 'deb https://download.arangodb.com/arangodb34/DEBIAN/ /' |sudo tee /etc/apt/sources.list.d/arangodb.list
+2 wget -q https://download.arangodb.com/arangodb34/DEBIAN/Release.key -O- | sudo apt-key add -
+3 sudo apt update -y
+4 sudo apt -y install apt-transport-https
+5 sudo apt -y install arangodb3
+6 sudo systemctl start arangodb3
+
+7 sudo systemctl status arangodb3
+8 sudo arangosh
+9 arangosh
+10 db._createDAtabase("abc")
+11 db._databases()
+12 exit
+13 cd /etc/arangodb3
+14 arangod.conf
+15 vim arangod.conf
+16 systemctl restart arangod
+17 systemctl status arangod
+18 cd
+
+===================================================================================
+
+
+#MYSQL
+
+1 wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
+2 sudo dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
+3 percona-release setup ps80
+4 sudo apt install percona-server-server
+5 mysql -u root -p
+6 create database abc;
+7 show databases;
+8 create database def;
+9 drop def
+
+
